@@ -14,6 +14,14 @@ function createCard(title, description, pictureUrl, startDate, endDate, location
         `;
     }
 
+function errorAlert(e) {
+    return `
+    <div class="alert alert-danger" role="alert">
+        ${e}
+    </div>
+    `;
+}
+
   window.addEventListener('DOMContentLoaded', async () => {
 
     const url = 'http://localhost:8000/api/conferences/';
@@ -46,12 +54,10 @@ function createCard(title, description, pictureUrl, startDate, endDate, location
       }
     } catch (e) {
       // Figure out what to do if an error is raised
-      const error = console.error(e)
-      return `
-            <div class="alert alert-danger" role="alert">
-                ${error}
-            </div>
-            `;
+      console.error(e);
+      const html = errorAlert(e);
+      const error = document.querySelector('.row');
+      error.innerHTML = html;
     }
 
   });
