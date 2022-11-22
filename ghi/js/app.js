@@ -46,6 +46,12 @@ function createCard(title, description, pictureUrl, startDate, endDate, location
       }
     } catch (e) {
       // Figure out what to do if an error is raised
+      const error = console.error(e)
+      return `
+            <div class="alert alert-danger" role="alert">
+                ${error}
+            </div>
+            `;
     }
 
   });
