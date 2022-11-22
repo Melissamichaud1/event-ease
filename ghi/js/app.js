@@ -31,6 +31,11 @@ function errorAlert(e) {
 
       if (!response.ok) {
         // Figure out what to do when the response is bad
+        let e = "There is an error!";
+        const html = errorAlert(e);
+        const error = document.querySelector('.row');
+        error.innerHTML = html;
+
       } else {
         const data = await response.json();
 
@@ -50,14 +55,14 @@ function errorAlert(e) {
             column.innerHTML += html;
           }
         }
-
-      }
+        }
     } catch (e) {
       // Figure out what to do if an error is raised
       console.error(e);
-      const html = errorAlert(e);
+      const html = errorAlert("This error occurred in the host!");
       const error = document.querySelector('.row');
       error.innerHTML = html;
     }
 
-  });
+
+});
