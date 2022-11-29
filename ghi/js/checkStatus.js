@@ -15,7 +15,7 @@ console.log(payload);
 
 // Check if "events.add_conference" is in the permissions.
 // If it is, remove 'd-none' from the link
-if (payload.user.perms.includes("events.add_conference") && (payload.user.perms.includes("events.add_location"))) {
+if (payload.user.perms.includes("events.add_conference") && (payload.user.perms.includes("events.add_location") && (payload.user.perms.includes("presentations.add_presentation")))) {
     const locationLinkTag = document.getElementById('hidden-location')
     locationLinkTag.classList.remove("d-none")
     const conferenceLinkTag = document.getElementById('hidden-conference')
