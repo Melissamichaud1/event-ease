@@ -4,6 +4,7 @@ import Nav from './Nav';
 import AttendeesList from './AttendeesList';
 import LocationForm from './LocationForm';
 import ConferenceForm from './ConferenceForm';
+import AttendeeSignupForm from './AttendeeSignupForm';
 
 
 function App(props) {
@@ -14,7 +15,8 @@ function App(props) {
     <React.Fragment>
     <Nav />
     <div className="container">
-      <ConferenceForm />
+      <AttendeeSignupForm />
+      {/* <ConferenceForm /> */}
       {/* <LocationForm /> */}
       {/* <AttendeesList attendees={props.attendees} /> */}
     </div>
