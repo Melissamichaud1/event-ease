@@ -1,6 +1,6 @@
 import React from "react";
 
-class AttendeeSignupForm extends React.Component {
+class AttendeeSignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -8,9 +8,9 @@ class AttendeeSignupForm extends React.Component {
       name: "",
       email: "",
     };
-    this.handleConferenceChange = this.handleConferenceChange.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleConferenceChange = this.handleConferenceChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -20,7 +20,7 @@ class AttendeeSignupForm extends React.Component {
     delete data.conferences;
     console.log(data);
 
-    const attendeeUrl = `http://localhost:8001/api/conferences/${data.conference}/attendees/`;
+    const attendeesUrl = `http://localhost:8001${data.conference}attendees/`;
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(data),
@@ -28,7 +28,7 @@ class AttendeeSignupForm extends React.Component {
         "Content-Type": "application/json",
       },
     };
-    const response = await fetch(attendeeUrl, fetchConfig);
+    const response = await fetch(attendeesUrl, fetchConfig);
     if (response.ok) {
       const newAttendee = await response.json();
       console.log(newAttendee);
@@ -43,6 +43,11 @@ class AttendeeSignupForm extends React.Component {
     }
   }
 
+  handleConferenceChange(event) {
+    const value = event.target.value;
+    this.setState({ conference: value });
+  }
+
   handleNameChange(event) {
     const value = event.target.value;
     this.setState({ name: value });
@@ -53,11 +58,6 @@ class AttendeeSignupForm extends React.Component {
     this.setState({ email: value });
   }
 
-  handleConferenceChange(event) {
-    const value = event.target.value;
-    this.setState({ conference: value });
-  }
-
   async componentDidMount() {
     const url = "http://localhost:8000/api/conferences/";
 
@@ -65,25 +65,26 @@ class AttendeeSignupForm extends React.Component {
 
     if (response.ok) {
       const data = await response.json();
+      console.log(data);
       this.setState({ conferences: data.conferences });
     }
   }
+
   render() {
-    let notSubmittedClass = "not submitted";
+    let notSubmittedClass = "not-submitted";
     let successClass = "alert alert-success d-none mb-0";
-    let spinnerClasses = "d-flex justify-content-center mb-3";
-    let dropdownClasses = "form-select d-none";
 
     if (this.state.success === true) {
-      notSubmittedClass = "not submitted d-none";
+      notSubmittedClass = "not-submitted d-none";
       successClass = "alert alert-success mb-0";
     }
 
+    let spinnerClasses = "d-flex justify-content-center mb-3";
+    let dropdownClasses = "form-select d-none";
     if (this.state.conferences.length > 0) {
       spinnerClasses = "d-flex justify-content-center mb-3 d-none";
       dropdownClasses = "form-select";
     }
-
     return (
       <div className="my-5">
         <div className="row">
@@ -98,72 +99,76 @@ class AttendeeSignupForm extends React.Component {
             <div className="card shadow">
               <div className="card-body">
                 <form
-                  className={notSubmittedClass}
                   onSubmit={this.handleSubmit}
+                  className={notSubmittedClass}
                   id="create-attendee-form"
-                />
-                <h1 className="card-title">It's Conference Time!</h1>
-                <p className="mb-3">
-                  Please choose which conference you'd like to attend.
-                </p>
-                <div className={spinnerClasses} id="loading-conference-spinner">
-                  <div className="spinner-grow text-secondary" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <select
-                    onChange={this.handleConferenceChange}
-                    name="conference"
-                    id="conference"
-                    className={dropdownClasses}
-                    required
+                >
+                  <h1 className="card-title">It's Conference Time!</h1>
+                  <p className="mb-3">
+                    Please choose which conference you'd like to attend.
+                  </p>
+                  <div
+                    className={spinnerClasses}
+                    id="loading-conference-spinner"
                   >
-                    <option value="">Choose a conference</option>
-                    {this.state.conferences.map((conference) => {
-                      return (
-                        <option key={conference.id} value={conference.id}>
-                          {conference.name}
-                        </option>
-                      );
-                    })}
-                    ;
-                  </select>
-                </div>
-                <p className="mb-3">Now, tell us about yourself.</p>
-                <div className="row">
-                  <div className="col">
-                    <div className="form-floating mb-3">
-                      <input
-                        onChange={this.handleNameChange}
-                        value={this.state.name}
-                        required
-                        placeholder="Your full name"
-                        type="text"
-                        id="name"
-                        name="name"
-                        className="form-control"
-                      />
-                      <label htmlFor="name">Your full name</label>
+                    <div className="spinner-grow text-secondary" role="status">
+                      <span className="visually-hidden">Loading...</span>
                     </div>
                   </div>
-                  <div className="col">
-                    <div className="form-floating mb-3">
-                      <input
-                        onChange={this.handleEmailChange}
-                        value={this.state.email}
-                        required
-                        placeholder="Your email address"
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="form-control"
-                      />
-                      <label htmlFor="email">Your email address</label>
+                  <div className="mb-3">
+                    <select
+                      onChange={this.handleConferenceChange}
+                      name="conference"
+                      id="conference"
+                      value={this.state.conference}
+                      className={dropdownClasses}
+                      required
+                    >
+                      <option value="">Choose a conference</option>
+                      {this.state.conferences.map((conference) => {
+                        return (
+                          <option key={conference.id} value={conference.href}>
+                            {conference.name}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                  <p className="mb-3">Now, tell us about yourself.</p>
+                  <div className="row">
+                    <div className="col">
+                      <div className="form-floating mb-3">
+                        <input
+                          onChange={this.handleNameChange}
+                          required
+                          placeholder="Your full name"
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={this.state.name}
+                          className="form-control"
+                        />
+                        <label htmlFor="name">Your full name</label>
+                      </div>
+                    </div>
+                    <div className="col">
+                      <div className="form-floating mb-3">
+                        <input
+                          onChange={this.handleEmailChange}
+                          required
+                          placeholder="Your email address"
+                          type="email"
+                          id="email"
+                          name="email"
+                          value={this.state.email}
+                          className="form-control"
+                        />
+                        <label htmlFor="email">Your email address</label>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <button className="btn btn-lg btn-primary">I'm going!</button>
+                  <button className="btn btn-lg btn-primary">I'm going!</button>
+                </form>
                 <div className={successClass} id="success-message">
                   Congratulations! You're all signed up!
                 </div>
@@ -175,4 +180,5 @@ class AttendeeSignupForm extends React.Component {
     );
   }
 }
-export default AttendeeSignupForm;
+
+export default AttendeeSignUpForm;
