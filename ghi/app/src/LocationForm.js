@@ -134,7 +134,7 @@ class LocationForm extends React.Component {
                     className="form-select"
                   >
                     <option value="">Choose a state</option>
-                    {this.state.state.map((state) => {
+                    {this.state.states.map((state) => {
                       return (
                         <option
                           key={state.abbreviation}

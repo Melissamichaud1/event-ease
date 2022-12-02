@@ -5,6 +5,7 @@ class AttendeeSignUpForm extends React.Component {
     super(props);
     this.state = {
       conferences: [],
+      conference: "",
       name: "",
       email: "",
     };
@@ -86,7 +87,7 @@ class AttendeeSignUpForm extends React.Component {
       dropdownClasses = "form-select";
     }
     return (
-      <div className="my-5">
+      <div className="my-5 container">
         <div className="row">
           <div className="col col-sm-auto">
             <img

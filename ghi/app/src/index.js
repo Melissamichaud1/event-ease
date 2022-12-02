@@ -1,13 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+// import { BrowserRouter } from "react-router-dom";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
+    {/* <BrowserRouter> */}
     <App />
+    {/* </BrowserRouter> */}
   </React.StrictMode>
 );
 
@@ -17,7 +20,7 @@ root.render(
 reportWebVitals();
 
 async function loadAttendees() {
-  const response = await fetch('http://localhost:8001/api/attendees/');
+  const response = await fetch("http://localhost:8001/api/attendees/");
   if (response.ok) {
     const data = await response.json();
     root.render(
@@ -26,7 +29,7 @@ async function loadAttendees() {
       </React.StrictMode>
     );
   } else {
-  console.log(response);
+    console.log(response);
   }
 }
 loadAttendees();
