@@ -18,29 +18,27 @@ function App(props) {
   return (
     <BrowserRouter>
       <Nav />
-      <div className="container">
-        <Routes>
-          <Route path="">
-            <Route index element={<MainPage />} />
-          </Route>
-          <Route path="presentations">
-            <Route path="new" element={<PresentationForm />} />
-          </Route>
-          <Route path="conferences">
-            <Route path="new" element={<ConferenceForm />} />
-          </Route>
-          <Route path="attendees">
-            <Route path="new" element={<AttendeeSignupForm />} />
-            <Route
-              path=""
-              element={<AttendeesList attendees={props.attendees} />}
-            />
-          </Route>
-          <Route path="locations">
-            <Route path="new" element={<LocationForm />} />
-          </Route>
-        </Routes>
-      </div>
+      <Routes>
+        <Route path="">
+          <Route index element={<MainPage />} />
+        </Route>
+        <Route path="presentations">
+          <Route path="new" element={<PresentationForm />} />
+        </Route>
+        <Route path="conferences">
+          <Route path="new" element={<ConferenceForm />} />
+        </Route>
+        <Route path="attendees">
+          <Route path="new" element={<AttendeeSignupForm />} />
+          <Route
+            path=""
+            element={<AttendeesList attendees={props.attendees} />}
+          />
+        </Route>
+        <Route path="locations">
+          <Route path="new" element={<LocationForm />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 }

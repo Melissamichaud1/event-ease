@@ -1,11 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "./logo.png";
 
 function ConferenceColumn(props) {
   return (
     <div className="col">
       {props.list.map((data) => {
         const conference = data.conference;
+        const weather = data.weather;
         return (
           <div key={conference.href} className="card mb-3 shadow">
             <img
@@ -23,13 +25,24 @@ function ConferenceColumn(props) {
               {new Date(conference.starts).toLocaleDateString()}-
               {new Date(conference.ends).toLocaleDateString()}
             </div>
+            <div className="card-footer">
+              Max presentations: {conference.max_presentations}
+            </div>
+            <div className="card-footer">
+              Max attendees: {conference.max_attendees}
+            </div>
+            <div className="card-footer">
+              The weather will be: {weather.description}
+            </div>
+            <div className="card-footer">
+              The temperature will be: {weather.temp} degrees
+            </div>
           </div>
         );
       })}
     </div>
   );
 }
-
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
@@ -95,20 +108,20 @@ class MainPage extends React.Component {
         <div className="px-4 py-5 my-5 mt-0 text-center bg-info">
           <img
             className="bg-white rounded shadow d-block mx-auto mb-4"
-            src="/logo.svg"
+            src={logo}
             alt=""
             width="600"
           />
-          <h1 className="display-5 fw-bold">Conference GO!</h1>
+          {/* <h1 className="display-5 fw-bold">Event Ease</h1> */}
           <div className="col-lg-6 mx-auto">
             <p className="lead mb-4">
-              The only resource you'll ever need to plan an run your in-person
+              The only resource you'll ever need to plan and run your in-person
               or virtual conference for thousands of attendees and presenters.
             </p>
             <div className="d-grid gap-2 d-sm-flex justify-content-sm-center">
               <Link
                 to="/attendees/new"
-                className="btn btn-primary btn-lg px-4 gap-3"
+                className="btn btn-dark btn-lg px-4 gap-3"
               >
                 Attend a conference
               </Link>

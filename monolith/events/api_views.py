@@ -9,11 +9,7 @@ from .models import Conference, Location, State
 
 class LocationListEncoder(ModelEncoder):
     model = Location
-    properties = [
-        "name",
-        "picture_url",
-        "id"
-    ]
+    properties = ["name", "picture_url", "id"]
 
 
 class LocationDetailEncoder(ModelEncoder):
@@ -33,11 +29,7 @@ class LocationDetailEncoder(ModelEncoder):
 
 class ConferenceListEncoder(ModelEncoder):
     model = Conference
-    properties = [
-        "name",
-        "id"
-
-    ]
+    properties = ["name", "id"]
 
 
 class ConferenceDetailEncoder(ModelEncoder):
@@ -104,31 +96,7 @@ def api_list_conferences(request):
             safe=False,
         )
 
-@require_http_methods(["GET"])
-def api_list_states(request):
-    # Get the states from the database ordered by name
-    states = State.objects.all().order_by('name')
-    state_list = []
-    for state in states:
-        hold = {
-            'name': state.name,
-            'abbreviation': state.abbreviation,
-        }
-        state_list.append(hold)
-    return JsonResponse(
-        {'states': state_list},
-    )
-    # Get the states from the database ordered by name
-    # Create an empty list named state_list
-
-    # For each state in the states from the database
-        # Create a dictionary that contains the name and
-        # abbreviation for each state
-
-        # Append the dictionary to the list
-
-
-
+@require_http_methods(["DELETE", "GET", "PUT"])
 def api_show_conference(request, pk):
     """
     Returns the details for the Conference model specified
@@ -154,16 +122,27 @@ def api_show_conference(request, pk):
         }
     }
     """
-    conference = Conference.objects.get(id=pk)
-    weather = get_weather_data(
-        conference.location.city,
-        conference.location.state.abbreviation,
-    )
-    return JsonResponse(
-        {"conference": conference, "weather": weather},
-        encoder=ConferenceDetailEncoder,
-        safe=False,
-    )
+    if request.method == "GET":
+        conference = Conference.objects.get(id=pk)
+        weather = get_weather_data(
+            conference.location.city,
+            conference.location.state.abbreviation,
+        )
+        return JsonResponse(
+            {"conference": conference, "weather": weather},
+            encoder=ConferenceDetailEncoder,
+        )
+    elif request.method == "DELETE":
+        try:
+            conference = Conference.objects.get(id=pk)
+            conference.delete()
+            return JsonResponse(
+                conference,
+                encoder=ConferenceDetailEncoder,
+                safe=False,
+            )
+        except Conference.DoesNotExist:
+            return JsonResponse({"message": "Does not exist"})
 
 
 @require_http_methods(["GET", "POST"])
@@ -260,3 +239,16 @@ def api_show_location(request, pk):
             encoder=LocationDetailEncoder,
             safe=False,
         )
+
+
+@require_http_methods(["GET"])
+def api_list_states(request):
+    states = State.objects.order_by("name")
+    state_list = []
+    for state in states:
+        values = {
+            "name": state.name,
+            "abbreviation": state.abbreviation,
+        }
+        state_list.append(values)
+    return JsonResponse({"states": state_list})

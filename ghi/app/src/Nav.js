@@ -4,7 +4,7 @@ function Nav() {
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
         <a className="navbar-brand" to="#">
-          Conference GO!
+          Event Ease
         </a>
         <button
           className="navbar-toggler"

@@ -64,6 +64,7 @@ class ConferenceForm extends React.Component {
 
     }
 
+
     handleNameChange(event) {
         const value = event.target.value;
         this.setState({name: value});

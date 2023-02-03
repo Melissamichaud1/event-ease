@@ -3,9 +3,9 @@ from django.urls import path
 from .api_views import (
     api_list_conferences,
     api_list_locations,
+    api_list_states,
     api_show_conference,
     api_show_location,
-    api_list_states,
 )
 
 

@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "./logo.png";
 
 class AttendeeSignUpForm extends React.Component {
   constructor(props) {
@@ -93,7 +94,7 @@ class AttendeeSignUpForm extends React.Component {
             <img
               width="300"
               className="bg-white rounded shadow d-block mx-auto mb-4"
-              src="/logo.svg"
+              src={logo}
             />
           </div>
           <div className="col">
@@ -168,7 +169,7 @@ class AttendeeSignUpForm extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <button className="btn btn-lg btn-primary">I'm going!</button>
+                  <button className="btn btn-lg btn-dark">I'm going!</button>
                 </form>
                 <div className={successClass} id="success-message">
                   Congratulations! You're all signed up!
